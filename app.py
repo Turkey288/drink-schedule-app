@@ -25,23 +25,27 @@ page = st.sidebar.radio(
 
 
 def 找最新班表():
-    output_files = [
-        f for f in os.listdir(".")
-        if f.endswith(".xlsx") and "自動排班結果" in f
-    ]
+    output_files = []
 
-    if os.path.exists("output"):
-        output_files += [
-            os.path.join("output", f)
-            for f in os.listdir("output")
-            if f.endswith(".xlsx") and "自動排班結果" in f
-        ]
+    for folder in [".", "output", "outputs"]:
+        if os.path.exists(folder):
+            for f in os.listdir(folder):
+                if not f.endswith(".xlsx"):
+                    continue
+
+                if "上傳資料" in f:
+                    continue
+
+                if "飲料店排班自動化_身分下拉更新版" in f:
+                    continue
+
+                full_path = os.path.join(folder, f)
+                output_files.append(full_path)
 
     if not output_files:
         return None
 
     return max(output_files, key=os.path.getmtime)
-
 
 def 格式化日期(value):
     text = str(value).strip()
@@ -315,9 +319,15 @@ if page == "店長排班後台":
         os.makedirs("output", exist_ok=True)
 
         input_path = "uploads/上傳資料.xlsx"
+        fixed_input_path = "飲料店排班自動化_身分下拉更新版.xlsx"
+
+        file_bytes = uploaded_file.getbuffer()
 
         with open(input_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
+        f.write(file_bytes)
+
+        with open(fixed_input_path, "wb") as f:
+        f.write(file_bytes)
 
         st.success("Excel 上傳成功")
 
