@@ -2,6 +2,7 @@ import streamlit as st
 import subprocess
 import pandas as pd
 import os
+import sys
 from datetime import datetime
 
 st.set_page_config(page_title="飲料店排班系統", layout="wide")
@@ -323,7 +324,7 @@ if page == "店長排班後台":
         if st.button("🚀 產生班表"):
             with st.spinner("正在產生班表..."):
                 result = subprocess.run(
-                    ["python", "auto_schedule.py"],
+                    [sys.executable, "auto_schedule.py"],
                     capture_output=True,
                     text=True,
                     encoding="utf-8",
