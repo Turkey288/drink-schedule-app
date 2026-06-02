@@ -324,10 +324,10 @@ if page == "店長排班後台":
         file_bytes = uploaded_file.getbuffer()
 
         with open(input_path, "wb") as f:
-        f.write(file_bytes)
+             f.write(file_bytes)
 
         with open(fixed_input_path, "wb") as f:
-        f.write(file_bytes)
+             f.write(file_bytes)
 
         st.success("Excel 上傳成功")
 
